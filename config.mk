@@ -10,14 +10,23 @@ MANPREFIX = ${PREFIX}/share/man
 X11INC = /usr/X11R6/include
 X11LIB = /usr/X11R6/lib
 
+# Xinerama, comment if you don't want it
+XINERAMALIBS  = -lXinerama
+XINERAMAFLAGS = -DXINERAMA
+
+# freetype
+FREETYPELIBS = -lXft
+FREETYPEINC = /usr/include/freetype2
+
 # includes and libs
-INCS = -I. -I/usr/include -I${X11INC}
-LIBS = -L/usr/lib -lc -lcrypt -L${X11LIB} -lX11 -lXext -lXrandr
+INCS = -I. -I/usr/include -I${X11INC} -I${FREETYPEINC}
+LIBS = -L/usr/lib -lc -lcrypt -L${X11LIB} -lX11 ${XINERAMALIBS} ${FREETYPELIBS} -lXext -lXrandr
+
 
 # flags
-CPPFLAGS = -DVERSION=\"${VERSION}\" -D_DEFAULT_SOURCE -DHAVE_SHADOW_H
-CFLAGS = -std=c99 -pedantic -Wall -Os ${INCS} ${CPPFLAGS}
-LDFLAGS = -s ${LIBS}
+CPPFLAGS = -DVERSION=\"${VERSION}\" -D_DEFAULT_SOURCE -DHAVE_SHADOW_H ${XINERAMAFLAGS}
+CFLAGS = -march=native -funsafe-math-optimizations -ffast-math -funroll-loops -fomit-frame-pointer -fno-semantic-interposition -Ofast -flto -std=c99 -pedantic -Wall ${INCS} ${CPPFLAGS}
+LDFLAGS = -flto -s ${LIBS}
 COMPATSRC = explicit_bzero.c
 
 # On OpenBSD and Darwin remove -lcrypt from LIBS

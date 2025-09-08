@@ -35,12 +35,8 @@ install: all
 	cp -f slock ${DESTDIR}${PREFIX}/bin
 	chmod 755 ${DESTDIR}${PREFIX}/bin/slock
 	chmod u+s ${DESTDIR}${PREFIX}/bin/slock
-	mkdir -p ${DESTDIR}${MANPREFIX}/man1
-	sed "s/VERSION/${VERSION}/g" <slock.1 >${DESTDIR}${MANPREFIX}/man1/slock.1
-	chmod 644 ${DESTDIR}${MANPREFIX}/man1/slock.1
 
 uninstall:
 	rm -f ${DESTDIR}${PREFIX}/bin/slock
-	rm -f ${DESTDIR}${MANPREFIX}/man1/slock.1
 
 .PHONY: all clean dist install uninstall
